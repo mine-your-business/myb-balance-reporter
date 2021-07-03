@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  myb-balance-reporter
+
+  Serverless capability for fetching and reporting wallet balances
+
+Resources:
+  # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  WalletBalancesReporterFn:
+    Type: AWS::Serverless::Function 
+    Properties:
+      CodeUri: wallet_balances_reporter_function
+      Handler: wallet_balances_reporter.app.lambda_handler
+      Runtime: python3.8
+      Timeout: 10
+      MemorySize: 128
+      Environment:
+        Variables:
+          # If RUN_MODE is 'test', runs in test mode
+          RUN_MODE: "production"
+          # Details about Coinbase Pro API keys: https://docs.pro.coinbase.com/
+          CBP_API_KEY: '{{resolve:ssm:/coinbase_pro/api_keys/view/key:1}}' 
+          CBP_API_KEY_PASSPHRASE: '{{resolve:ssm:/coinbase_pro/api_keys/view/passphrase:1}}' 
+          CBP_API_KEY_SECRET: '{{resolve:ssm:/coinbase_pro/api_keys/view/secret:1}}' 
+          # Details about Celsius Network API keys: https://developers.celsius.network/integration-partner.html
+          CELNET_PARTNER_TOKEN: '{{resolve:ssm:/celsius_network/api_keys/partner_token:1}}' 
+          CELNET_API_KEY: '{{resolve:ssm:/celsius_network/api_keys/wallet_read/key:1}}' 
+          # https://newrelic.com/
+          NEWRELIC_ACCOUNT_ID: '{{resolve:ssm:/newrelic/account_id:1}}'
+          NEWRELIC_INSIGHTS_INSERT_API_KEY: '{{resolve:ssm:/newrelic/insights/insert_api_key:1}}'
+          NEWRELIC_INSIGHTS_QUERY_API_URL: https://insights-api.newrelic.com
+          NEWRELIC_INSIGHTS_INSERT_API_URL: https://insights-collector.newrelic.com
+      Events:
+        CWSchedule:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0/15 * * * ? *)
+            Name: WalletBalancesReporterSchedule
+            Description: execution schedule for reporting wallet balances
+            Enabled: True

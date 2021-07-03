@@ -1,0 +1,5 @@
+myb-newrelic-api>=1.0.1
+# Coinbase Pro is used for pricing in addition to wallet balances
+# for both Coinbase and Coinbase Pro (Exchange) wallets
+myb-coinbase-pro-api>=1.0.0
+myb-celsius-network-api>=1.0.0

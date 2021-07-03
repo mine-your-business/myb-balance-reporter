@@ -1,0 +1,12 @@
+{
+  "WalletBalancesFn": {
+    "RUN_MODE": "test",
+    "CBP_API_KEY": "",
+    "CBP_API_KEY_PASSPHRASE": "",
+    "CBP_API_KEY_SECRET": "",
+    "CELNET_PARTNER_TOKEN": "",
+    "CELNET_API_KEY": "",
+    "NEWRELIC_ACCOUNT_ID": "",
+    "NEWRELIC_INSIGHTS_INSERT_API_KEY": ""
+  }
+}
