@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "myb-balance-reporter"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1234example"
+s3_prefix = "myb-balance-reporter"
+region = "us-west-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
